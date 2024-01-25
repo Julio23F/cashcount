@@ -1,5 +1,6 @@
 import 'package:cashcount/pages/home/widgets/category.dart';
 import 'package:cashcount/pages/home/widgets/header.dart';
+import 'package:cashcount/pages/home/widgets/historique.dart';
 import 'package:cashcount/pages/home/widgets/money.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF3aaafc),
+      backgroundColor: const Color(0xFF3cadfc),
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -31,6 +32,7 @@ class HomePage extends StatelessWidget {
 
             const Column(
               children: [
+                SizedBox(height: 35),
                 HeaderSection(),
                 MoneySection(),
                 CategorySection()

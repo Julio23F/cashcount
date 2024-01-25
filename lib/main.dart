@@ -1,4 +1,5 @@
-import 'package:cashcount/pages/home/home.dart';
+import 'package:cashcount/pages/auth/login.dart';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Cashcount',
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }

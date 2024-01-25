@@ -1,31 +1,39 @@
 import 'package:flutter/material.dart';
 
+import 'historique.dart';
+
 class CategorySection extends StatelessWidget {
   const CategorySection({Key? key});
 
   final List<Map<String, dynamic>> categories = const [
     {
-      'icon': Icons.track_changes_outlined,
-      'color':  Colors.purple,
-      'name': 'PPN',
-      'total' : "25.5 Ar",
-      'pourcentage' : '56 %'
-    },
-    {
-      'icon': Icons.track_changes_outlined,
-      'color': Colors.deepOrange,
-      'name': 'Loyer',
-      'total' : "25.5 Ar",
-      'pourcentage' : '56 %'
-    },
-    {
-      'icon': Icons.track_changes_outlined,
+      'icon': Icons.restaurant_menu,
       'color': Colors.blue,
-      'name': 'Déplacement',
-      'total' : "25.5 Ar",
+      'name': 'PPN',
+      'total' : "55.4K Ar",
       'pourcentage' : '56 %'
     },
-
+    {
+      'icon': Icons.time_to_leave_rounded,
+      'color': Colors.deepOrange,
+      'name': 'Transport',
+      'total' : "25.5K Ar",
+      'pourcentage' : '20 %'
+    },
+    {
+      'icon': Icons.home,
+      'color':  Colors.purple,
+      'name': 'Loyer',
+      'total' : "23.5K Ar",
+      'pourcentage' : '10 %'
+    },
+    {
+      'icon': Icons.star,
+      'color':  Colors.yellow,
+      'name': 'Autres',
+      'total' : "18.1K Ar",
+      'pourcentage' : '15 %'
+    },
 
   ];
 
@@ -33,26 +41,40 @@ class CategorySection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 535,
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 35),
+      decoration: BoxDecoration(
         color: Color(0xFFF6F8FF),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15), // Couleur de l'ombre
+            spreadRadius: 5, // Étendue de l'ombre
+            blurRadius: 15, // Flou de l'ombre
+            offset: Offset(0, 3), // Décalage de l'ombre (X, Y)
+          ),
+        ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.all(20),
-            height: 220,
+              margin: EdgeInsets.only(left: 15),
+              child: Text("Catégories", style: TextStyle(color: Color(0xff22223b), fontSize: 17, fontWeight: FontWeight.w600))
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            height: 205,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => Container(
-                padding: EdgeInsets.all(15),
-                width: 140,
+                padding: EdgeInsets.all(18),
+                width: 155,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Color(0xFFe8ebfc),
+                  color: Color(0xFFf1f2f8),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,10 +88,10 @@ class CategorySection extends StatelessWidget {
                       child: Icon(
                         categories[index]['icon'],
                         color: Colors.white,
-                        size: 20,
+                        size: 18,
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(height: 25,),
                     Text(
                       categories[index]['pourcentage'],
                       style: TextStyle(
@@ -83,7 +105,7 @@ class CategorySection extends StatelessWidget {
                       style: const TextStyle(
                           color: Color(0xFF0d2360),
                           fontWeight: FontWeight.bold,
-                          fontSize: 28
+                          fontSize: 26
                       ),
                     ),
                     Text(
@@ -97,10 +119,11 @@ class CategorySection extends StatelessWidget {
                   ],
                 ),
               ),
-              separatorBuilder: (context, index) => SizedBox(width: 33),
+              separatorBuilder: (context, index) => SizedBox(width: 20),
               itemCount: categories.length,
             ),
           ),
+          HistoriqueSection()
         ],
       ),
     );

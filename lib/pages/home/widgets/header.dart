@@ -12,10 +12,16 @@ class HeaderSection extends StatelessWidget {
         right: 25
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Icon(Icons.menu_open_sharp, color: Colors.white, size: 40,),
           CircleAvatar(child: Image.asset("assets/images/avatar.png")),
+          SizedBox(width: 15,),
+          const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Welcome!", style: TextStyle(color: Colors.white70),),
+              Text("FARALAHY Julio", style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xff212529)),)
+            ],
+          )
         ],
       ),
     );
