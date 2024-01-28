@@ -66,12 +66,12 @@ class CategorySection extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(10),
-            height: 205,
+            height: 163,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => Container(
-                padding: EdgeInsets.all(18),
-                width: 155,
+                padding: EdgeInsets.all(10),
+                width: 130,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Color(0xFFf1f2f8),
@@ -88,16 +88,16 @@ class CategorySection extends StatelessWidget {
                       child: Icon(
                         categories[index]['icon'],
                         color: Colors.white,
-                        size: 18,
+                        size: 15,
                       ),
                     ),
-                    SizedBox(height: 25,),
+                    SizedBox(height: 13,),
                     Text(
                       categories[index]['pourcentage'],
                       style: TextStyle(
                           color: Color(0xff9692fc),
                           fontWeight: FontWeight.bold,
-                          fontSize: 16
+                          fontSize: 15
                       ),
                     ),
                     Text(
@@ -105,7 +105,7 @@ class CategorySection extends StatelessWidget {
                       style: const TextStyle(
                           color: Color(0xFF0d2360),
                           fontWeight: FontWeight.bold,
-                          fontSize: 26
+                          fontSize: 20
                       ),
                     ),
                     Text(

@@ -28,25 +28,27 @@ class HistoriqueSection extends StatelessWidget {
                        ),
                        child: Icon(Icons.restaurant_menu, color: Colors.white, size: 32,),
                      ),
-                     const Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         Text(
-                             "Youtube Earning",
-                             style: TextStyle(
-                                 color: Color(0xFF0d2360),
-                                 fontWeight: FontWeight.bold,
+                     const Expanded(
+                         child: Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                             Text(
+                                 "Nouriture et PPN",
+                                 style: TextStyle(
+                                   color: Color(0xFF0d2360),
+                                   fontWeight: FontWeight.bold,
+                                 )
+                             ),
+                             Text(
+                               "Jan 2, 2024",
+                               style: TextStyle(
+                                   color: Color(0xff22223b)
+                               ),
                              )
+                           ],
                          ),
-                         Text(
-                             "Jan 2, 2024",
-                              style: TextStyle(
-                                color: Color(0xff22223b)
-                              ),
-                         )
-                       ],
                      ),
-                     SizedBox(width: 120,),
+
                      Text(
                          "2 550 Ar",
                           style: TextStyle(

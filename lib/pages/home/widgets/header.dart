@@ -19,7 +19,7 @@ class HeaderSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Welcome!", style: TextStyle(color: Colors.white70),),
-              Text("FARALAHY Julio", style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xff212529)),)
+              Text("FARALAHY Julio", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xff212529)),)
             ],
           )
         ],

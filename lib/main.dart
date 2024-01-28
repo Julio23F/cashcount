@@ -1,6 +1,7 @@
 import 'package:cashcount/pages/auth/login.dart';
-
+import 'package:cashcount/pages/home/home.dart';
 import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(const MyApp());
