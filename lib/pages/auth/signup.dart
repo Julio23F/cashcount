@@ -1,21 +1,22 @@
-import 'package:cashcount/pages/auth/signup.dart';
-import 'package:cashcount/pages/auth/widgets/remember.dart';
+import 'package:cashcount/pages/auth/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignupPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<SignupPage> {
 
   final _formkey = GlobalKey<FormState>();
 
   final confEmailController = TextEditingController();
   final confMDPController = TextEditingController();
+  final confPseudoController = TextEditingController();
 
   @override
   void dispose() {
@@ -23,6 +24,45 @@ class _LoginPageState extends State<LoginPage> {
 
     confEmailController.dispose();
     confMDPController.dispose();
+    confPseudoController.dispose();
+  }
+
+  Future signUp() async {
+    if (_formkey.currentState!.validate()) {
+      try {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .add({
+          "pseudo": confPseudoController.text.trim(),
+        });
+
+        // Créer l'utilisateur
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: confEmailController.text,
+          password: confMDPController.text,
+        );
+
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text("Votre compte a été créé", textAlign: TextAlign.center,),
+              );
+            }
+        );
+
+      } on FirebaseException catch (e) {
+        // Gérer les erreurs (par exemple, e-mail en double, mot de passe faible, etc.)
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(e.message.toString()),
+              );
+            }
+        );
+      }
+    }
   }
 
   @override
@@ -59,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           Center(
                             child: Text(
-                              "Connexion",
+                              "Créer un compte",
                               style: TextStyle(
                                 color: Color(0xff222d56),
                                 fontSize: 30,
@@ -68,6 +108,37 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           SizedBox(height: 25),
+                          Container(
+                              margin: EdgeInsets.only(bottom: 15),
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Pseudo',
+                                  hintText: 'Votre pseudo',
+                                  hintStyle: const TextStyle(
+                                    color: Colors.black26,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Colors.grey, // Nouvelle couleur du bord
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Colors.grey, // Nouvelle couleur du bord
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                validator: (value){
+                                  if(value == null || value.isEmpty ){
+                                    return "Invalide";
+                                  }
+                                  return null;
+                                },
+                                controller: confPseudoController,
+                              )
+                          ),
                           Container(
                               margin: EdgeInsets.only(bottom: 15),
                               child: TextFormField(
@@ -91,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                                 validator: (value){
-                                  if (value == null || value.isEmpty){
+                                  if(value == null || value.isEmpty ){
                                     return "Adresse email invalide";
                                   }
                                   return null;
@@ -123,15 +194,15 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                                 validator: (value){
-                                  if(value == null || value.isEmpty ){
-                                    return "Mot de passe invalide";
+
+                                  if(value!.length < 5){
+                                    return "Le mot de passe doit contenir au moins 6 caractères";
                                   }
                                   return null;
                                 },
                                 controller: confMDPController,
                               )
                           ),
-                          RememberSection(),
                           Container(
                             margin: EdgeInsets.only(top: 35),
                             width: double.infinity,
@@ -140,16 +211,9 @@ class _LoginPageState extends State<LoginPage> {
                                     padding: MaterialStatePropertyAll(EdgeInsets.all(12)),
                                     backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 66, 101, 224))
                                 ),
-                                onPressed: (){
-                                  if (_formkey.currentState!.validate()){
-
-                                    Login();
-
-                                  }
-
-                                },
+                                onPressed: signUp,
                                 child: Text(
-                                    "Connexion",
+                                    "Sign up",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 18
@@ -158,31 +222,31 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 35),
-                            width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Vous n'avez pas de compte ?"),
-                                TextButton(
-                                  onPressed: (){
-                                    Navigator.push(
-                                        context,
-                                        PageRouteBuilder(
-                                            pageBuilder: (_, __, ___) => SignupPage()
-                                        )
-                                    );
-                                  },
-                                  child: Text(
-                                      "Inscription",
+                              margin: EdgeInsets.only(top: 15),
+                              width: double.infinity,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Vous avez déjà compte ?"),
+                                  TextButton(
+                                    onPressed: (){
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                              pageBuilder: (_, __, ___) => LoginPage()
+                                          )
+                                      );
+                                    },
+                                    child: Text(
+                                      "Connexion",
                                       style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.blueAccent
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.blueAccent
                                       ),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            )
+                                ],
+                              )
                           )
 
                         ],
@@ -196,23 +260,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-  Future<void> Login() async {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-              child: CircularProgressIndicator()
-          );
-        }
-    );
-
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: confEmailController.text,
-        password: confMDPController.text
-    );
-
-    Navigator.of(context).pop();
   }
 }
 

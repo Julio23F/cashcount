@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import '../forgot_password.dart';
 
 class RememberSection extends StatelessWidget {
   const RememberSection({super.key});
@@ -6,18 +8,29 @@ class RememberSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 15),
+      margin: EdgeInsets.only(top: 5),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Text("Se souvenir de moi"),
-          Text(
-              "Mot de passe oublié",
-            style: TextStyle(
-              fontSize: 17,
-              color: Colors.blue
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.rightToLeft, // Choisissez le type d'animation que vous souhaitez
+                    child: ForgotPasswordPage(), // Page de destination
+                  ),
+              );
+            },
+            child: Text(
+              "Mot de passe oublié ?",
+              style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.blueAccent
+              ),
             ),
-          ),
+          )
+
         ],
       ),
     );
