@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,18 @@ class HeaderSection extends StatefulWidget {
 }
 
 class _HeaderSectionState extends State<HeaderSection> {
-  final user = FirebaseAuth.instance.currentUser!;
+
+  // Récupérer l'utilisateur courant
+  final currentUser = FirebaseAuth.instance.currentUser!;
+  // currentUser.email pour afficher directement l'email dans le l'autentification de firebase
+
+
+  // Récupérer les détails de l'utilisateur courant
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDetails () async {
+    return await FirebaseFirestore.instance.collection("users")
+        .doc(currentUser!.uid)
+        .get();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +33,7 @@ class _HeaderSectionState extends State<HeaderSection> {
       ),
       child: Row(
         children: [
+
           TextButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
@@ -32,7 +45,22 @@ class _HeaderSectionState extends State<HeaderSection> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Welcome!", style: TextStyle(color: Colors.grey),),
-              Text(user.email!, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xff212529)),)
+              Text(currentUser.email!, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xff212529)),),
+              FutureBuilder(
+                  future: getUserDetails(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text("Erreur: ${snapshot.error}");
+                    }
+                    else if (snapshot.hasData) {
+                      Map <String, dynamic>? user = snapshot.data!.data();
+                      return Text(user!['pseudo'], style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xff212529)),);
+                    }
+                    else {
+                      return Text("No data");
+                    }
+                  }
+              ),
             ],
           )
         ],

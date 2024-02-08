@@ -1,6 +1,7 @@
 import 'package:cashcount/pages/addRevenus/Revenus.dart';
 import 'package:cashcount/pages/auth/login.dart';
 import 'package:cashcount/pages/home/home.dart';
+import 'package:cashcount/pages/setting/setting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,7 @@ class _MyAppState extends State<MyApp> {
                     child: [
                       HomePage(),
                       RevenusPage(),
+                      SettingPage()
                     ][_currentIndex],
                   ),
                   BottomNavigationBar(

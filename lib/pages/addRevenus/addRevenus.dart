@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
@@ -12,7 +14,64 @@ class AddRevenusPage extends StatefulWidget {
 
 class _AddRevenusPageState extends State<AddRevenusPage> {
 
-  DateTime selectedConfDate = DateTime.now();
+  DateTime dateDebut = DateTime.now();
+  DateTime dateFin = DateTime.now();
+
+  final formKey = GlobalKey<FormState>();
+  final revenusController = TextEditingController();
+  final montantController = TextEditingController();
+
+  @override
+  void dispose() {
+    revenusController.dispose();
+    montantController.dispose();
+    super.dispose();
+  }
+
+  // Récupérer l'utilisateur courant
+  final currentUser = FirebaseAuth.instance.currentUser!;
+
+  // Enregistrer dans cloud firestore
+  Future addRevenus() async{
+    try {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Center(
+                child: CircularProgressIndicator()
+            );
+          }
+      );
+      if(currentUser != null){
+
+        await FirebaseFirestore.instance
+            .collection("revenus")
+            .add({
+              "userId" : currentUser.uid,
+              "revenusName": revenusController.text.trim(),
+              "montant": montantController.text.trim(),
+              "dateDebut" : dateDebut,
+              "dateFin" : dateFin
+
+        });
+        revenusController.clear();
+        montantController.clear();
+
+        Navigator.of(context).pop();
+      }
+    }on FirebaseException catch (e) {
+      Navigator.of(context).pop();
+      // Gérer les erreurs (par exemple, e-mail en double, mot de passe faible, etc.)
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.message.toString()),
+            );
+          }
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +92,7 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
               ),
               SizedBox(height: 35,),
               Form(
+                key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -44,7 +104,8 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                         ),
                       ),
                       SizedBox(height: 10,),
-                      TextField(
+
+                      TextFormField(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(16),
                           hintText: "Intitulé du revenus",
@@ -66,6 +127,13 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
+                        controller: revenusController,
+                        validator: (value){
+                          if(value == null || value.isEmpty ){
+                            return "Invalide";
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: 20,),
                       // Montant du revenus
@@ -80,7 +148,7 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                       Row(
                         children: [
                           Expanded(
-                              child: TextField(
+                              child: TextFormField(
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(16),
                                   hintText: "Montant",
@@ -102,6 +170,13 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
+                                controller: montantController,
+                                validator: (value){
+                                  if(value == null || value.isEmpty ){
+                                    return "Invalide";
+                                  }
+                                  return null;
+                                },
                               ),
                           ),
                           Container(
@@ -133,7 +208,7 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                         children: [
                           Expanded(
                             child: DateTimeField(
-                              value: selectedConfDate,
+                              value: dateDebut,
                               decoration: const InputDecoration(
                                   labelText: 'Date de début',
                                   border: OutlineInputBorder(
@@ -152,7 +227,7 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                               mode: DateTimeFieldPickerMode.date,
                               onChanged: (DateTime? value) {
                                 setState(() {
-                                  selectedConfDate = value!;
+                                  dateDebut = value!;
                                 });
                               },
 
@@ -160,9 +235,10 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                           ),
                           SizedBox(width: 7,),
                           Expanded(
-                            child: DateTimeFormField(
+                            child: DateTimeField(
+                              value: dateFin,
                               decoration: const InputDecoration(
-                                labelText: 'Date de fin',
+                                labelText: 'Date de début',
                                 border: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                     color: Color(0xfff6f4fa), // Nouvelle couleur du bord
@@ -177,14 +253,12 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                                 ),
                               ),
                               mode: DateTimeFieldPickerMode.date,
-                              firstDate: DateTime.now().toLocal(),
-                              initialValue: DateTime.now(),
-                              initialPickerDateTime: DateTime.now().add(const Duration(days: 30)),
                               onChanged: (DateTime? value) {
                                 setState(() {
-                                  selectedConfDate = value!;
+                                  dateFin = value!;
                                 });
                               },
+
                             ),
                           ),
                         ],
@@ -201,7 +275,11 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                                 backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 66, 101, 224))
                             ),
                             onPressed: (){
+                              if (formKey.currentState!.validate()) {
 
+                                // Ajouter les revenus dans firestore
+                                addRevenus();
+                              }
 
                             },
                             child: Text(

@@ -29,29 +29,28 @@ class _LoginPageState extends State<SignupPage> {
 
   Future signUp() async {
     if (_formkey.currentState!.validate()) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Center(
+                child: CircularProgressIndicator()
+            );
+          }
+      );
       try {
-        await FirebaseFirestore.instance
-            .collection("users")
-            .add({
-          "pseudo": confPseudoController.text.trim(),
-        });
 
         // Créer l'utilisateur
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential? userCredential =  await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: confEmailController.text,
           password: confMDPController.text,
         );
 
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                content: Text("Votre compte a été créé", textAlign: TextAlign.center,),
-              );
-            }
-        );
+        // Enregistrer dans firestor
+        reisterFirestore(userCredential);
 
+        Navigator.of(context).pop();
       } on FirebaseException catch (e) {
+        Navigator.of(context).pop();
         // Gérer les erreurs (par exemple, e-mail en double, mot de passe faible, etc.)
         showDialog(
             context: context,
@@ -64,6 +63,22 @@ class _LoginPageState extends State<SignupPage> {
       }
     }
   }
+
+  // Enregistrer dans cloud firestore
+  Future reisterFirestore(UserCredential? userCredential) async{
+    if(userCredential != null &&  userCredential.user != null){
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userCredential.user!.uid)
+          .set({
+        "email": userCredential.user!.email,
+        "pseudo": confPseudoController.text.trim(),
+      });
+    }
+
+
+  }
+
 
   @override
   Widget build(BuildContext context) {

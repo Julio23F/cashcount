@@ -206,13 +206,26 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
     );
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: confEmailController.text,
+          password: confMDPController.text
+      );
+      Navigator.of(context).pop();
+    } on FirebaseException catch (e) {
+      Navigator.of(context).pop();
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.code.toString()),
+            );
+          }
+      );
+    }
 
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: confEmailController.text,
-        password: confMDPController.text
-    );
 
-    Navigator.of(context).pop();
+
   }
 }
 
