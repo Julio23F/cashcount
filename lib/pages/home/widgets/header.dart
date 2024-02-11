@@ -19,7 +19,7 @@ class _HeaderSectionState extends State<HeaderSection> {
   // Récupérer les détails de l'utilisateur courant
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserDetails () async {
     return await FirebaseFirestore.instance.collection("users")
-        .doc(currentUser!.uid)
+        .doc(currentUser.uid)
         .get();
   }
 
@@ -33,23 +33,23 @@ class _HeaderSectionState extends State<HeaderSection> {
       ),
       child: Row(
         children: [
-
-          TextButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-            child: CircleAvatar(child: Image.asset("assets/images/avatar.png")),
-          ),
+          CircleAvatar(child: Image.asset("assets/images/avatar.png")),
           SizedBox(width: 15,),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Welcome!", style: TextStyle(color: Colors.grey),),
-              Text(currentUser.email!, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xff212529)),),
+              //Text(currentUser.email!, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xff212529)),),
               FutureBuilder(
                   future: getUserDetails(),
                   builder: (context, snapshot) {
-                    if (snapshot.hasError) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                      
+                    }
+                    else if (snapshot.hasError) {
                       return Text("Erreur: ${snapshot.error}");
                     }
                     else if (snapshot.hasData) {

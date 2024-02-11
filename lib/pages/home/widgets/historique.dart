@@ -19,14 +19,14 @@ class HistoriqueSection extends StatelessWidget {
                  child: Row(
                    children: [
                      Container(
-                       height: 55,
-                       width: 55,
+                       height: 50,
+                       width: 50,
                        margin: EdgeInsets.only(right: 18),
                        decoration: BoxDecoration(
                          borderRadius: BorderRadius.circular(15),
                          color: Color(0xFFef4539),
                        ),
-                       child: Icon(Icons.restaurant_menu, color: Colors.white, size: 32,),
+                       child: Icon(Icons.restaurant_menu, color: Colors.white, size: 30,),
                      ),
                      const Expanded(
                          child: Column(
@@ -42,7 +42,7 @@ class HistoriqueSection extends StatelessWidget {
                              Text(
                                "Jan 2, 2024",
                                style: TextStyle(
-                                   color: Color(0xff22223b)
+                                   color: Colors.grey
                                ),
                              )
                            ],
@@ -54,7 +54,7 @@ class HistoriqueSection extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0xff6dde58),
                             fontWeight: FontWeight.bold,
-                            fontSize: 18
+                            fontSize: 17
                           ),
                      )
 

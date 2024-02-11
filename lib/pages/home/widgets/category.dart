@@ -66,12 +66,12 @@ class CategorySection extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(10),
-            height: 160,
+            height: 157,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => Container(
                 padding: EdgeInsets.all(10),
-                width: 125,
+                width: 120,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Color(0xFFF6F8FF),
@@ -97,7 +97,7 @@ class CategorySection extends StatelessWidget {
                       style: TextStyle(
                           color: Color(0xff9692fc),
                           fontWeight: FontWeight.bold,
-                          fontSize: 14
+                          fontSize: 13
                       ),
                     ),
                     Text(
@@ -105,7 +105,7 @@ class CategorySection extends StatelessWidget {
                       style: const TextStyle(
                           color: Color(0xFF0d2360),
                           fontWeight: FontWeight.bold,
-                          fontSize: 19
+                          fontSize: 18
                       ),
                     ),
                     Text(
@@ -113,7 +113,7 @@ class CategorySection extends StatelessWidget {
                       style: const TextStyle(
                           color: Color(0xFFa2a8bd),
                           fontWeight: FontWeight.bold,
-                          fontSize: 15
+                          fontSize: 14
                       ),
                     ),
                   ],
@@ -123,6 +123,7 @@ class CategorySection extends StatelessWidget {
               itemCount: categories.length,
             ),
           ),
+          SizedBox(height: 10,),
           HistoriqueSection()
         ],
       ),

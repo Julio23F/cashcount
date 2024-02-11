@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 
@@ -42,23 +41,21 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
             );
           }
       );
-      if(currentUser != null){
 
-        await FirebaseFirestore.instance
-            .collection("revenus")
-            .add({
-              "userId" : currentUser.uid,
-              "revenusName": revenusController.text.trim(),
-              "montant": montantController.text.trim(),
-              "dateDebut" : dateDebut,
-              "dateFin" : dateFin
+      await FirebaseFirestore.instance
+          .collection("revenus")
+          .add({
+        "userId" : currentUser.uid,
+        "revenusName": revenusController.text.trim(),
+        "montant": montantController.text.trim(),
+        "dateDebut" : dateDebut,
+        "dateFin" : dateFin
 
-        });
-        revenusController.clear();
-        montantController.clear();
+      });
+      revenusController.clear();
+      montantController.clear();
 
-        Navigator.of(context).pop();
-      }
+      Navigator.of(context).pop();
     }on FirebaseException catch (e) {
       Navigator.of(context).pop();
       // Gérer les erreurs (par exemple, e-mail en double, mot de passe faible, etc.)
