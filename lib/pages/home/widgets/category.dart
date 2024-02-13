@@ -40,7 +40,7 @@ class CategorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 550,
+      //height: 550,
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 35),
       decoration: BoxDecoration(
         color: Colors.white,

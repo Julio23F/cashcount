@@ -1,24 +1,45 @@
 import 'package:cashcount/pages/home/widgets/category.dart';
 import 'package:cashcount/pages/home/widgets/header.dart';
 import 'package:cashcount/pages/home/widgets/money.dart';
+import 'package:chip_list/chip_list.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  // Utiliser un Tag
+  final List<String> _dogeNames = [
+    'Beagle',
+    'Labrador',
+    'Retriever',
+  ];
+
+  int _currentIndex = 0;
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF6F8FF),
       body: SingleChildScrollView(
-        child: const Column(
+        child: Column(
           children: [
             SizedBox(height: 15),
             HeaderSection(),
             MoneySection(),
-            CategorySection()
+            CategorySection(),
+
+
+
+
 
           ],
         )
@@ -36,6 +57,7 @@ class HomePage extends StatelessWidget {
 
     );
   }
+
   Future displayBottomSheet (BuildContext context) {
     return showFlexibleBottomSheet(
       minHeight: 0,
@@ -50,6 +72,8 @@ class HomePage extends StatelessWidget {
   }
 
 
+
+
   Widget _buildBottomSheet(
       BuildContext context,
       ScrollController scrollController,
@@ -57,19 +81,31 @@ class HomePage extends StatelessWidget {
       ) {
     return Material(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
         child: Form(
           child: ListView(
             controller: scrollController,
             children: [
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Votre contenu principal à gauche
+                  Text(
+                      "Ajouter une dépense",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 23
+                      ),
+                  ),
+
+                  // L'icône alignée à droite
+                  GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();
                     },
                     child: Icon(Icons.close, size: 30,),
                   )
+                ],
               ),
 
               SizedBox(height: 25,),
@@ -77,8 +113,8 @@ class HomePage extends StatelessWidget {
               // Intitulé de la dépense
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: "Intitulé de la dépense",
-                  hintStyle: const TextStyle(
+                  labelText: 'Dépense',
+                  labelStyle: const TextStyle(
                     color: Colors.black26,
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -94,10 +130,11 @@ class HomePage extends StatelessWidget {
               // Prix de la dépense
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: "Montant en Ar",
-                  hintStyle: const TextStyle(
+                  labelText: 'Montant en Ar',
+                  labelStyle: const TextStyle(
                     color: Colors.black26,
                   ),
+
                   enabledBorder: UnderlineInputBorder(
                     borderSide: const BorderSide(
                       color: Colors.grey, // Nouvelle couleur du bord
@@ -106,8 +143,29 @@ class HomePage extends StatelessWidget {
                 ),
               ),
 
-              // Catégorie
+              Column(
+                // Julio
+                children: [
+                  Text('Using extraOnToggle: ${_dogeNames[_currentIndex]}'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ChipList(
+                    listOfChipNames: _dogeNames,
+                    activeBgColorList: [Theme.of(context).primaryColor],
+                    inactiveBgColorList: [Colors.white],
+                    activeTextColorList: [Colors.white],
+                    inactiveTextColorList: [Theme.of(context).primaryColor],
+                    listOfChipIndicesCurrentlySeclected: [_currentIndex],
+                    extraOnToggle: (val) {
+                      setState(() {
+                        _currentIndex = val;
+                      });
+                    },
+                  ),
 
+                ],
+              ),
 
 
               // Envoyer
@@ -137,5 +195,4 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
 }
