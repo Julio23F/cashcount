@@ -47,7 +47,7 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
           .add({
         "userId" : currentUser.uid,
         "revenusName": revenusController.text.trim(),
-        "montant": montantController.text.trim(),
+        "montant": num.parse(montantController.text.trim()),
         "dateDebut" : dateDebut,
         "dateFin" : dateFin
 

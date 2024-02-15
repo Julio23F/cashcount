@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                       stream: FirebaseFirestore.instance.collection('categories').snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return Text("");
                         }
                         List<DropdownMenuItem<String>> items = [];
                         for (var doc in snapshot.data!.docs) {

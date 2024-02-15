@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
                         label: 'Home',
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.add),
+                        icon: Icon(Icons.credit_card_outlined),
                         label: 'Revenus',
                       ),
                       BottomNavigationBarItem(

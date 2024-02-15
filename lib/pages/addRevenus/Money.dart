@@ -14,16 +14,21 @@ class MoneyPage extends StatefulWidget {
 
 class _MoneyPageState extends State<MoneyPage> {
   late Stream<QuerySnapshot> _moneyStream;
-  double totalMoney = 0.0;
+
 
   @override
   void initState() {
     super.initState();
+
+
     // Initialiser le stream des revenus à partir de la base de données
     _moneyStream = FirebaseFirestore.instance
         .collection('revenus')
         .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
+
+
+
   }
 
 
@@ -82,12 +87,33 @@ class _MoneyPageState extends State<MoneyPage> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      Text(
-                        "${totalMoney.toStringAsFixed(2)} Ar", // Affiche la somme des revenus
-                        style: TextStyle(
-                          fontSize: 35,
-                        ),
+                        StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('revenus')
+                            .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return CircularProgressIndicator(); // Affichage d'un indicateur de chargement en attendant les données
+                          }
+                          if (snapshot.hasError) {
+                            return Text('Une erreur s\'est produite'); // Affichage d'un message d'erreur en cas de problème
+                          }
+                          // Calcul de la somme des montants
+                          double somme = 0.0;
+                          snapshot.data!.docs.forEach((doc) {
+                            somme += doc['montant'] ?? 0.0; // On ajoute le montant du document à la somme (si le montant est null, on ajoute 0.0)
+                          });
+                          return Text(
+                            "${somme.toStringAsFixed(2)} Ar", // Affiche la somme des revenus
+                            style: TextStyle(
+                              fontSize: 35,
+                            ),
+                          ); // Affichage de la somme des revenus
+                        },
                       ),
+
+
                       SizedBox(height: 50),
                       Divider(
                         color: Color(0xffabbbde),
@@ -126,7 +152,7 @@ class _MoneyPageState extends State<MoneyPage> {
                       else {
                         List<DocumentSnapshot> revenus = snapshot.data!.docs;
 
-                        print(totalMoney);
+
                         return ListView.builder(
                           shrinkWrap: true,
                           itemCount: revenus.length,
@@ -178,7 +204,8 @@ class _MoneyPageState extends State<MoneyPage> {
                                   ),
 
                                   Text(
-                                    "${formatter.format(double.parse(revenu['montant']))} Ar",
+                                    // "${formatter.format(double.parse(revenu['montant']))} Ar",
+                                    "${formatter.format(revenu['montant'])} Ar",
                                     style: TextStyle(
                                         color: Colors.deepPurpleAccent,
                                         fontWeight: FontWeight.bold,
