@@ -3,6 +3,7 @@ import 'package:cashcount/pages/home/widgets/header.dart';
 import 'package:cashcount/pages/home/widgets/money.dart';
 import 'package:chip_list/chip_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 
@@ -16,10 +17,61 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  final expenseController = TextEditingController();
+  final priceController = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
 
+  @override
+  void dispose() {
+    expenseController.dispose();
+    priceController.dispose();
+    super.dispose();
+  }
   String selectedConfType = 'PPN';
 
   String? _selectedCategory;
+
+  // Récupérer l'utilisateur courant
+  final currentUser = FirebaseAuth.instance.currentUser!;
+
+  Future addDepense() async{
+    try {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Center(
+                child: CircularProgressIndicator()
+            );
+          }
+      );
+
+      await FirebaseFirestore.instance
+          .collection("depenses")
+          .add({
+        "userId" : currentUser.uid,
+        "categoriId": selectedConfType,
+        "name": expenseController.text.trim(),
+        "prix" : num.parse(priceController.text.trim()),
+
+      });
+      expenseController.clear();
+      priceController.clear();
+
+      Navigator.of(context).pop();
+      Navigator.pop(context);
+    }on FirebaseException catch (e) {
+      Navigator.of(context).pop();
+      // Gérer les erreurs (par exemple, e-mail en double, mot de passe faible, etc.)
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.message.toString()),
+            );
+          }
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +94,6 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           displayBottomSheet(context);
         },
-        tooltip: 'Incrémenter',
         child: Icon(Icons.add),
       ),
 
@@ -77,6 +128,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
         child: Form(
+          key: _formkey,
           child: ListView(
             controller: scrollController,
             children: [
@@ -117,6 +169,13 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
+                validator: (value){
+                  if (value == null || value.isEmpty){
+                    return "Dépense invalide";
+                  }
+                  return null;
+                },
+                controller: expenseController,
               ),
 
               SizedBox(height: 25,),
@@ -138,7 +197,15 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
+                      validator: (value){
+                        if (value == null || value.isEmpty){
+                          return "Montant invalide";
+                        }
+                        return null;
+                      },
+                      controller: priceController,
                     ),
+
                   ),
                   SizedBox(width: 25,),
                   Expanded(
@@ -209,7 +276,12 @@ class _HomePageState extends State<HomePage> {
                         backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 66, 101, 224))
                     ),
                     onPressed: (){
+                      if (_formkey.currentState!.validate()) {
 
+                        // Ajouter une dépense dans firestore
+                        addDepense();
+
+                      }
                     },
                     child: Text(
                         "Ajouter",

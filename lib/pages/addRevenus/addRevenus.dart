@@ -56,6 +56,7 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
       montantController.clear();
 
       Navigator.of(context).pop();
+      Navigator.pop(context);
     }on FirebaseException catch (e) {
       Navigator.of(context).pop();
       // Gérer les erreurs (par exemple, e-mail en double, mot de passe faible, etc.)
@@ -276,6 +277,7 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
 
                                 // Ajouter les revenus dans firestore
                                 addRevenus();
+
                               }
 
                             },

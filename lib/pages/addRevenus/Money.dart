@@ -94,22 +94,25 @@ class _MoneyPageState extends State<MoneyPage> {
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
-                            return CircularProgressIndicator(); // Affichage d'un indicateur de chargement en attendant les données
+                            // Affichage d'un indicateur de chargement en attendant les données
+                            return CircularProgressIndicator();
                           }
                           if (snapshot.hasError) {
-                            return Text('Une erreur s\'est produite'); // Affichage d'un message d'erreur en cas de problème
+                            return Text('Une erreur s\'est produite');
                           }
                           // Calcul de la somme des montants
                           double somme = 0.0;
                           snapshot.data!.docs.forEach((doc) {
-                            somme += doc['montant'] ?? 0.0; // On ajoute le montant du document à la somme (si le montant est null, on ajoute 0.0)
+                            // On ajoute le montant du document à la somme (si le montant est null, on ajoute 0.0)
+                            somme += doc['montant'] ?? 0.0;
                           });
                           return Text(
-                            "${somme.toStringAsFixed(2)} Ar", // Affiche la somme des revenus
+                            // Affiche la somme des revenus
+                            "${somme.toStringAsFixed(2)} Ar",
                             style: TextStyle(
                               fontSize: 35,
                             ),
-                          ); // Affichage de la somme des revenus
+                          );
                         },
                       ),
 
