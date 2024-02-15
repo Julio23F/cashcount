@@ -1,4 +1,4 @@
-import 'package:cashcount/pages/addRevenus/Revenus.dart';
+import 'package:cashcount/pages/addRevenus/Money.dart';
 import 'package:cashcount/pages/auth/login.dart';
 import 'package:cashcount/pages/home/home.dart';
 import 'package:cashcount/pages/setting/setting.dart';
@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
                   Expanded(
                     child: [
                       HomePage(),
-                      RevenusPage(),
+                      MoneyPage(),
                       SettingPage()
                     ][_currentIndex],
                   ),

@@ -45,9 +45,9 @@ class _HeaderSectionState extends State<HeaderSection> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: Text(""),
                       );
-                      
+
                     }
                     else if (snapshot.hasError) {
                       return Text("Erreur: ${snapshot.error}");

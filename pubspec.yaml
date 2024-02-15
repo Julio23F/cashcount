@@ -45,6 +45,7 @@ dependencies:
   bottom_sheet: ^4.0.0
   chip_list: ^2.4.4+8
   chips_choice: ^3.0.1
+  flutter_fast_forms: ^13.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

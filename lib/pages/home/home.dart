@@ -2,6 +2,7 @@ import 'package:cashcount/pages/home/widgets/category.dart';
 import 'package:cashcount/pages/home/widgets/header.dart';
 import 'package:cashcount/pages/home/widgets/money.dart';
 import 'package:chip_list/chip_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 
@@ -14,16 +15,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Utiliser un Tag
-  final List<String> _dogeNames = [
-    'Beagle',
-    'Labrador',
-    'Retriever',
-  ];
-
-  int _currentIndex = 0;
 
 
+  String selectedConfType = 'PPN';
+
+  String? _selectedCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +32,6 @@ class _HomePageState extends State<HomePage> {
             HeaderSection(),
             MoneySection(),
             CategorySection(),
-
-
 
 
 
@@ -62,9 +56,9 @@ class _HomePageState extends State<HomePage> {
     return showFlexibleBottomSheet(
       minHeight: 0,
       initHeight: 0.5,
-      maxHeight: 1,
+      maxHeight: 0.9  ,
       context: context,
-      anchors: [0, 0.5, 1],
+      anchors: [0, 0.5, 0.9],
       isSafeArea: true,
       bottomSheetBorderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
       builder: _buildBottomSheet,
@@ -128,44 +122,81 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 25,),
 
               // Prix de la dépense
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Montant en Ar',
-                  labelStyle: const TextStyle(
-                    color: Colors.black26,
-                  ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Montant en Ar',
+                        labelStyle: const TextStyle(
+                          color: Colors.black26,
+                        ),
 
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: Colors.grey, // Nouvelle couleur du bord
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Colors.grey, // Nouvelle couleur du bord
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-
-              Column(
-                // Julio
-                children: [
-                  Text('Using extraOnToggle: ${_dogeNames[_currentIndex]}'),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(width: 25,),
+                  Expanded(
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance.collection('categories').snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        }
+                        List<DropdownMenuItem<String>> items = [];
+                        for (var doc in snapshot.data!.docs) {
+                          String categoryName = doc.get('name');
+                          items.add(
+                            DropdownMenuItem(
+                              value: categoryName,
+                              child: Text(categoryName),
+                            ),
+                          );
+                        }
+                        return DropdownButtonFormField(
+                          value: _selectedCategory,
+                          items: items,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedCategory = value as String?;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Categories',
+                            labelStyle: const TextStyle(
+                              color: Colors.black26,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                  ChipList(
-                    listOfChipNames: _dogeNames,
-                    activeBgColorList: [Theme.of(context).primaryColor],
-                    inactiveBgColorList: [Colors.white],
-                    activeTextColorList: [Colors.white],
-                    inactiveTextColorList: [Theme.of(context).primaryColor],
-                    listOfChipIndicesCurrentlySeclected: [_currentIndex],
-                    extraOnToggle: (val) {
-                      setState(() {
-                        _currentIndex = val;
-                      });
-                    },
-                  ),
-
                 ],
               ),
+
+              // Column(
+              //   // Julio
+              //   children: [
+              //     const SizedBox(
+              //       height: 10,
+              //     ),
+              //     ChipList(
+              //       listOfChipNames: _dogeNames,
+              //       activeBgColorList: [Theme.of(context).primaryColor],
+              //       inactiveBgColorList: [Colors.white],
+              //       activeTextColorList: [Colors.white],
+              //       inactiveTextColorList: [Theme.of(context).primaryColor],
+              //       listOfChipIndicesCurrentlySeclected: [_currentIndex],
+              //       extraOnToggle: _updateCurrentIndex,
+              //     ),
+              //
+              //   ],
+              // ),
 
 
               // Envoyer
