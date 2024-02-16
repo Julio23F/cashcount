@@ -38,7 +38,7 @@ class _HeaderSectionState extends State<HeaderSection> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Welcome!", style: TextStyle(color: Colors.grey),),
+              Text("Welcome!", style: TextStyle(color: Colors.grey, fontSize: 13),),
               //Text(currentUser.email!, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xff212529)),),
               FutureBuilder(
                   future: getUserDetails(),

@@ -130,8 +130,9 @@ class _MoneyPageState extends State<MoneyPage> {
                 ),
               ),
             ),
-            Padding(
+            Container(
               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 25),
+              color: Colors.red,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

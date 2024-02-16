@@ -40,7 +40,7 @@ class CategorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //height: 550,
+
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 35),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -66,14 +66,14 @@ class CategorySection extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(10),
-            height: 157,
+            height: 140,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => Container(
                 padding: EdgeInsets.all(10),
-                width: 120,
+                width: 105,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   color: Color(0xFFF6F8FF),
                 ),
                 child: Column(
@@ -82,22 +82,22 @@ class CategorySection extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(7),
                         color: categories[index]["color"] as Color,
                       ),
                       child: Icon(
                         categories[index]['icon'],
                         color: Colors.white,
-                        size: 15,
+                        size: 13,
                       ),
                     ),
-                    SizedBox(height: 13,),
+                    SizedBox(height: 7,),
                     Text(
                       categories[index]['pourcentage'],
                       style: TextStyle(
                           color: Color(0xff9692fc),
                           fontWeight: FontWeight.bold,
-                          fontSize: 13
+                          fontSize: 11
                       ),
                     ),
                     Text(
@@ -105,7 +105,7 @@ class CategorySection extends StatelessWidget {
                       style: const TextStyle(
                           color: Color(0xFF0d2360),
                           fontWeight: FontWeight.bold,
-                          fontSize: 18
+                          fontSize: 16
                       ),
                     ),
                     Text(
@@ -113,7 +113,7 @@ class CategorySection extends StatelessWidget {
                       style: const TextStyle(
                           color: Color(0xFFa2a8bd),
                           fontWeight: FontWeight.bold,
-                          fontSize: 14
+                          fontSize: 12
                       ),
                     ),
                   ],

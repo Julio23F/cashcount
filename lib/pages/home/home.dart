@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     priceController.dispose();
     super.dispose();
   }
-  String selectedConfType = 'PPN';
+
 
   String? _selectedCategory;
 
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
           .collection("depenses")
           .add({
         "userId" : currentUser.uid,
-        "categoriId": selectedConfType,
+        "categoriId": _selectedCategory,
         "name": expenseController.text.trim(),
         "prix" : num.parse(priceController.text.trim()),
 
@@ -218,9 +218,10 @@ class _HomePageState extends State<HomePage> {
                         List<DropdownMenuItem<String>> items = [];
                         for (var doc in snapshot.data!.docs) {
                           String categoryName = doc.get('name');
+                          String categoryId = doc.id;
                           items.add(
                             DropdownMenuItem(
-                              value: categoryName,
+                              value: categoryId,
                               child: Text(categoryName),
                             ),
                           );
