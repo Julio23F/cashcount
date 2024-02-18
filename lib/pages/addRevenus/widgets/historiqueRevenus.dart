@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class HistoriqueSection extends StatelessWidget {
-  const HistoriqueSection({super.key});
+class HistoriqueRevenus extends StatelessWidget {
+  const HistoriqueRevenus({super.key});
 
 
   Icon getArticleIcon(String articleId) {
@@ -38,7 +38,7 @@ class HistoriqueSection extends StatelessWidget {
             Container(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection("depenses")
+                    .collection("revenus")
                     .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                     .snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -63,10 +63,10 @@ class HistoriqueSection extends StatelessWidget {
 
                         final depense = depenses[index];
 
-                        final name = depense["name"];
-                        final categoriId = depense["categoriId"];
+                        final name = depense["revenusName"];
 
-                        final prix = formatter.format(depense["prix"]);
+
+                        final prix = formatter.format(depense["montant"]);
 
 
                         return Container(
@@ -81,8 +81,7 @@ class HistoriqueSection extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15),
                                   color: Color(0xFFF6F8FF),
                                 ),
-                                // child: Icon(Icons.restaurant_menu, color: Colors.white, size: 30,),
-                                child: getArticleIcon(categoriId)
+                                child: Icon(Icons.restaurant_menu, color: Colors.red, size: 30,),
                               ),
                               Expanded(
                                 child: Column(

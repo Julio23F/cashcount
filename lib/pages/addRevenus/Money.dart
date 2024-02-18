@@ -1,9 +1,12 @@
-import 'package:cashcount/pages/addRevenus/addRevenus.dart';
+import 'package:cashcount/pages/addRevenus/julio.dart';
+import 'package:cashcount/pages/addRevenus/widgets/historiqueRevenus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
+
+import '../home/widgets/historique.dart';
 
 class MoneyPage extends StatefulWidget {
   const MoneyPage({Key? key}) : super(key: key);
@@ -13,25 +16,13 @@ class MoneyPage extends StatefulWidget {
 }
 
 class _MoneyPageState extends State<MoneyPage> {
-  late Stream<QuerySnapshot> _moneyStream;
 
 
   @override
   void initState() {
     super.initState();
 
-
-    // Initialiser le stream des revenus à partir de la base de données
-    _moneyStream = FirebaseFirestore.instance
-        .collection('revenus')
-        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .snapshots();
-
-
-
   }
-
-
 
 
   @override
@@ -130,12 +121,14 @@ class _MoneyPageState extends State<MoneyPage> {
                 ),
               ),
             ),
+
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 25),
-              color: Colors.red,
+
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  HistoriqueRevenus(),
                   Text(
                     "Liste de revenus",
                     style: TextStyle(
@@ -145,7 +138,10 @@ class _MoneyPageState extends State<MoneyPage> {
                   ),
                   SizedBox(height: 20,),
                   StreamBuilder<QuerySnapshot>(
-                    stream: _moneyStream,
+                    stream: FirebaseFirestore.instance
+                        .collection('revenus')
+                        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                        .snapshots(),
                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
@@ -158,6 +154,9 @@ class _MoneyPageState extends State<MoneyPage> {
 
 
                         return ListView.builder(
+                          // Pour empecher l'effetr scroll par défaut
+                          physics: NeverScrollableScrollPhysics(),
+
                           shrinkWrap: true,
                           itemCount: revenus.length,
                           itemBuilder: (context, index) {

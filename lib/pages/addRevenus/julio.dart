@@ -82,15 +82,15 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                  "Ajouter un revenus",
-                  style: TextStyle(
+                "Ajouter un revenus",
+                style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w500
-                  ),
+                ),
               ),
               SizedBox(height: 35,),
               Form(
-                key: formKey,
+                  key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -146,36 +146,36 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                       Row(
                         children: [
                           Expanded(
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(16),
-                                  hintText: "Montant",
-                                  hintStyle: const TextStyle(
-                                    color: Colors.black26,
-                                  ),
-                                  filled: true,
-                                  fillColor: Color(0xfff6f4fa),
-                                  border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xfff6f4fa), // Nouvelle couleur du bord
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xfff6f4fa), // couleur du bord
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(16),
+                                hintText: "Montant",
+                                hintStyle: const TextStyle(
+                                  color: Colors.black26,
                                 ),
-                                controller: montantController,
-                                validator: (value){
-                                  if(value == null || value.isEmpty ){
-                                    return "Invalide";
-                                  }
-                                  return null;
-                                },
+                                filled: true,
+                                fillColor: Color(0xfff6f4fa),
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xfff6f4fa), // Nouvelle couleur du bord
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xfff6f4fa), // couleur du bord
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
+                              controller: montantController,
+                              validator: (value){
+                                if(value == null || value.isEmpty ){
+                                  return "Invalide";
+                                }
+                                return null;
+                              },
+                            ),
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 10),
@@ -189,9 +189,9 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                               child: Text(
                                 "Ar",
                                 style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white
                                 ),
                               ),
                             ),
@@ -208,20 +208,20 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
                             child: DateTimeField(
                               value: dateDebut,
                               decoration: const InputDecoration(
-                                  labelText: 'Date de début',
-                                  border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xfff6f4fa), // Nouvelle couleur du bord
-                                    ),
-
+                                labelText: 'Date de début',
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xfff6f4fa), // Nouvelle couleur du bord
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xfff6f4fa), // couleur du bord
-                                    ),
 
-                                  ),
                                 ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xfff6f4fa), // couleur du bord
+                                  ),
+
+                                ),
+                              ),
                               mode: DateTimeFieldPickerMode.date,
                               onChanged: (DateTime? value) {
                                 setState(() {
