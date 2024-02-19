@@ -41,7 +41,7 @@ class CategorySection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
 
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 35),
+      padding: EdgeInsets.symmetric(vertical: 35),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -65,7 +65,7 @@ class CategorySection extends StatelessWidget {
               child: Text("Catégories", style: TextStyle(color: Color(0xff22223b), fontSize: 17, fontWeight: FontWeight.w600))
           ),
           Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             height: 140,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
