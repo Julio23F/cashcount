@@ -166,7 +166,6 @@ class HistoriqueRevenus extends StatelessWidget {
                             color: Colors.red,
                             onTap: () {
                               deleteItem(revenusId);
-                              // CupertinoLeftScroll.of(context)?.close();
                             },
                           ),
                         ],

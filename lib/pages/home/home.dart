@@ -1,7 +1,7 @@
 import 'package:cashcount/pages/home/widgets/category.dart';
 import 'package:cashcount/pages/home/widgets/header.dart';
 import 'package:cashcount/pages/home/widgets/money.dart';
-import 'package:chip_list/chip_list.dart';
+import 'package:cashcount/pages/home/widgets/somme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -246,25 +246,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-
-              // Column(
-              //   // Julio
-              //   children: [
-              //     const SizedBox(
-              //       height: 10,
-              //     ),
-              //     ChipList(
-              //       listOfChipNames: _dogeNames,
-              //       activeBgColorList: [Theme.of(context).primaryColor],
-              //       inactiveBgColorList: [Colors.white],
-              //       activeTextColorList: [Colors.white],
-              //       inactiveTextColorList: [Theme.of(context).primaryColor],
-              //       listOfChipIndicesCurrentlySeclected: [_currentIndex],
-              //       extraOnToggle: _updateCurrentIndex,
-              //     ),
-              //
-              //   ],
-              // ),
 
 
               // Envoyer

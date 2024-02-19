@@ -47,6 +47,7 @@ dependencies:
   chips_choice: ^3.0.1
   flutter_fast_forms: ^13.0.0
   left_scroll_actions: ^2.1.2
+  percent_indicator: ^4.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
