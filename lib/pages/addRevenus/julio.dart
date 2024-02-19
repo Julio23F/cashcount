@@ -75,8 +75,9 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+
       body: SingleChildScrollView(
-        child: Padding(
+        child: Container(
           padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,65 +203,65 @@ class _AddRevenusPageState extends State<AddRevenusPage> {
 
                       // Date de début et de fin
 
-                      Row(
-                        children: [
-                          Expanded(
-                            child: DateTimeField(
-                              value: dateDebut,
-                              decoration: const InputDecoration(
-                                labelText: 'Date de début',
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Color(0xfff6f4fa), // Nouvelle couleur du bord
-                                  ),
-
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Color(0xfff6f4fa), // couleur du bord
-                                  ),
-
-                                ),
-                              ),
-                              mode: DateTimeFieldPickerMode.date,
-                              onChanged: (DateTime? value) {
-                                setState(() {
-                                  dateDebut = value!;
-                                });
-                              },
-
-                            ),
-                          ),
-                          SizedBox(width: 7,),
-                          Expanded(
-                            child: DateTimeField(
-                              value: dateFin,
-                              decoration: const InputDecoration(
-                                labelText: 'Date de début',
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Color(0xfff6f4fa), // Nouvelle couleur du bord
-                                  ),
-
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Color(0xfff6f4fa), // couleur du bord
-                                  ),
-
-                                ),
-                              ),
-                              mode: DateTimeFieldPickerMode.date,
-                              onChanged: (DateTime? value) {
-                                setState(() {
-                                  dateFin = value!;
-                                });
-                              },
-
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: DateTimeField(
+                      //         value: dateDebut,
+                      //         decoration: const InputDecoration(
+                      //           labelText: 'Date de début',
+                      //           border: OutlineInputBorder(
+                      //             borderSide: const BorderSide(
+                      //               color: Color(0xfff6f4fa), // Nouvelle couleur du bord
+                      //             ),
+                      //
+                      //           ),
+                      //           enabledBorder: OutlineInputBorder(
+                      //             borderSide: const BorderSide(
+                      //               color: Color(0xfff6f4fa), // couleur du bord
+                      //             ),
+                      //
+                      //           ),
+                      //         ),
+                      //         mode: DateTimeFieldPickerMode.date,
+                      //         onChanged: (DateTime? value) {
+                      //           setState(() {
+                      //             dateDebut = value!;
+                      //           });
+                      //         },
+                      //
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 7,),
+                      //     Expanded(
+                      //       child: DateTimeField(
+                      //         value: dateFin,
+                      //         decoration: const InputDecoration(
+                      //           labelText: 'Date de début',
+                      //           border: OutlineInputBorder(
+                      //             borderSide: const BorderSide(
+                      //               color: Color(0xfff6f4fa), // Nouvelle couleur du bord
+                      //             ),
+                      //
+                      //           ),
+                      //           enabledBorder: OutlineInputBorder(
+                      //             borderSide: const BorderSide(
+                      //               color: Color(0xfff6f4fa), // couleur du bord
+                      //             ),
+                      //
+                      //           ),
+                      //         ),
+                      //         mode: DateTimeFieldPickerMode.date,
+                      //         onChanged: (DateTime? value) {
+                      //           setState(() {
+                      //             dateFin = value!;
+                      //           });
+                      //         },
+                      //
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
 
                       // Boutton d'envoie
 

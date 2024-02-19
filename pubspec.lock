@@ -328,6 +328,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  left_scroll_actions:
+    dependency: "direct main"
+    description:
+      name: left_scroll_actions
+      sha256: b1f52234469b93a5e520ca002201794fc6b8a914af5357c328b6ab265bd18733
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.2"
   matcher:
     dependency: transitive
     description:

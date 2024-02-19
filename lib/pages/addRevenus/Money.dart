@@ -123,108 +123,13 @@ class _MoneyPageState extends State<MoneyPage> {
             ),
 
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 25),
+              
 
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   HistoriqueRevenus(),
-                  Text(
-                    "Liste de revenus",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('revenus')
-                        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                        .snapshots(),
-                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                      else if (!snapshot.hasData) {
-                        return Center(child: Text("Aucun revenu trouvé"));
-                      }
-                      else {
-                        List<DocumentSnapshot> revenus = snapshot.data!.docs;
 
-
-                        return ListView.builder(
-                          // Pour empecher l'effetr scroll par défaut
-                          physics: NeverScrollableScrollPhysics(),
-
-                          shrinkWrap: true,
-                          itemCount: revenus.length,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot revenu = revenus[index];
-
-                            // Récupérer la date pour chaque document
-                            DateTime dateDebut = revenu['dateDebut'].toDate();
-                            // Formater la date en un format précis
-                            String formattedDate = DateFormat('MMM d, yyyy').format(dateDebut);
-
-
-                            // Créer un objet NumberFormat pour formater le nombre
-                            NumberFormat formatter = NumberFormat('#,###.##');
-
-                            return Container(
-                              margin: EdgeInsets.only(bottom: 15),
-                              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[100],
-                                  borderRadius: BorderRadius.circular(7)
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(right: 18),
-                                    child: Icon(Icons.credit_card_outlined, color: Colors.deepOrange, size: 40,),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            revenu['revenusName'],
-                                            // Accédez au champ 'revenusName' du document
-                                            style: TextStyle(
-                                              color: Color(0xFF0d2360),
-                                              fontWeight: FontWeight.bold,
-                                            )
-                                        ),
-                                        Text(
-                                          "$formattedDate",
-                                          style: TextStyle(
-                                              color: Colors.grey
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-
-                                  Text(
-                                    // "${formatter.format(double.parse(revenu['montant']))} Ar",
-                                    "${formatter.format(revenu['montant'])} Ar",
-                                    style: TextStyle(
-                                        color: Colors.deepPurpleAccent,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17
-                                    ),
-                                  )
-
-                                ],
-                              ),
-                            );
-
-                          },
-                        );
-                      }
-                    },
-                  ),
                 ],
               ),
             ),
