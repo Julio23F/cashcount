@@ -50,6 +50,7 @@ class HistoriqueRevenus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 15, left: 15),
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -109,7 +110,7 @@ class HistoriqueRevenus extends StatelessWidget {
                           height: 60,
                           alignment: Alignment.center,
                           child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 15),
+                            margin: EdgeInsets.only(right: 15),
                             child: Row(
                               children: [
                                 Container(
