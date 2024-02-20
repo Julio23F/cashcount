@@ -1,41 +1,91 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'historique.dart';
 
 class CategorySection extends StatelessWidget {
-  const CategorySection({Key? key});
+  CategorySection({Key? key}) : super(key: key);
 
   final List<Map<String, dynamic>> categories = const [
     {
       'icon': Icons.restaurant_menu,
       'color': Colors.blue,
       'name': 'PPN',
-      'total' : "55.4K Ar",
-      'pourcentage' : '56 %'
+      'gategoriId' : 'BOYmy0TCpnnZL01JC5Xw',
     },
     {
       'icon': Icons.time_to_leave_rounded,
       'color': Colors.deepOrange,
       'name': 'Transport',
-      'total' : "25.5K Ar",
-      'pourcentage' : '20 %'
+      'gategoriId' : 'N45g3YQbPtzZhwCe9RyR',
     },
     {
       'icon': Icons.home,
       'color':  Colors.purple,
       'name': 'Loyer',
-      'total' : "23.5K Ar",
-      'pourcentage' : '10 %'
+      'gategoriId' : 'tEwkATormoFmtOwAP4kL',
     },
     {
       'icon': Icons.star,
       'color':  Colors.yellow,
       'name': 'Autres',
-      'total' : "18.1K Ar",
-      'pourcentage' : '15 %'
+      'gategoriId' : 'CorRqWgRV3MCC7LB5O2P',
     },
 
   ];
+  NumberFormat formatter = NumberFormat('#,###.##');
+  String formatNumber(num number) {
+    if (number < 1000) {
+      return number.toString();
+    } else if (number < 1000000) {
+      double num = number / 1000;
+      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : 1)}K';
+    } else {
+      double num = number / 1000000;
+      return '${num.toStringAsFixed(num.truncateToDouble() == num ? 0 : 1)}M';
+    }
+  }
+
+
+  Future<Widget> getTotalExpenses(String categoriId) async {
+    num total = 0;
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('depenses')
+        .where('categoriId', isEqualTo: categoriId)
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    querySnapshot.docs.forEach((doc) {
+      // Suppose que le champ 'montant' existe dans les documents
+      total += doc['prix'];
+    });
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+            "10 %",
+            style: TextStyle(
+                color: Color(0xff9692fc),
+                fontWeight: FontWeight.bold,
+                fontSize: 11
+            ),
+        ),
+        Text(
+            "${formatNumber(total)} Ar",
+            style: const TextStyle(
+                color: Color(0xFF0d2360),
+                fontWeight: FontWeight.bold,
+                fontSize: 15
+            ),
+        ),
+      ],
+    ); // Retourne un widget de texte avec la valeur totale
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,21 +142,20 @@ class CategorySection extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 7,),
-                    Text(
-                      categories[index]['pourcentage'],
-                      style: TextStyle(
-                          color: Color(0xff9692fc),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 11
-                      ),
-                    ),
-                    Text(
-                      categories[index]['total'],
-                      style: const TextStyle(
-                          color: Color(0xFF0d2360),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16
-                      ),
+                    FutureBuilder<Widget>(
+                      future: getTotalExpenses(categories[index]['gategoriId']),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Text("");
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return Container(
+                            // Affiche le widget de texte avec la valeur totale
+                            child: snapshot.data,
+                          );
+                        }
+                      },
                     ),
                     Text(
                       categories[index]['name'],

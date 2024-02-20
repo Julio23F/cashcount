@@ -16,13 +16,13 @@ class HistoriqueSection extends StatelessWidget {
       // PPN
         return Icon(Icons.restaurant_menu, color: Colors.blue,);
       case 'CorRqWgRV3MCC7LB5O2P':
-      // PPN
+      // Autres
         return Icon(Icons.star, color: Colors.yellow,);
       case 'N45g3YQbPtzZhwCe9RyR':
-      // PPN
+      // Transport
         return Icon(Icons.time_to_leave_rounded, color: Colors.deepOrange,);
       case 'tEwkATormoFmtOwAP4kL':
-      // PPN
+      // Loyer
         return Icon(Icons.home, color: Colors.purple);
       default:
         return Icon(Icons.error_outline);
@@ -39,6 +39,7 @@ class HistoriqueSection extends StatelessWidget {
       print('Erreur lors de la suppression de l\'élément : $e');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
