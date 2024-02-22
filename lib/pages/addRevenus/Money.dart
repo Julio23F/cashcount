@@ -47,6 +47,7 @@ class _MoneyPageState extends State<MoneyPage> {
                   color: Colors.deepOrange,
                 ),
                 onPressed: () {
+                  FirebaseAuth.instance.signOut();
                   Navigator.push(
                     context,
                     PageTransition(

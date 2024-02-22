@@ -40,7 +40,6 @@ class HistoriqueSection extends StatelessWidget {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,8 +62,8 @@ class HistoriqueSection extends StatelessWidget {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   }
-                  if (!snapshot.hasData) {
-                    return Text("Aucune dépense enregistrée");
+                  else if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
                   }
                   else {
                     List<dynamic> depenses = [];
@@ -86,6 +85,7 @@ class HistoriqueSection extends StatelessWidget {
 
                         final prix = formatter.format(depense["prix"]);
 
+
                         final historiqueId = depense.reference.id;
 
                         return Container(
@@ -95,9 +95,8 @@ class HistoriqueSection extends StatelessWidget {
                             closeTag: LeftScrollCloseTag(historiqueId),
                             buttonWidth: 80,
                             child: Container(
-                              height: 60,
-                              alignment: Alignment.center,
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
                                       height: 50,
@@ -122,7 +121,7 @@ class HistoriqueSection extends StatelessWidget {
                                             )
                                         ),
                                         Text(
-                                          "Jan 2, 2024",
+                                          "Feb 2, 2024",
                                           style: TextStyle(
                                               color: Colors.grey
                                           ),

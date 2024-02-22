@@ -140,14 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                                     padding: MaterialStatePropertyAll(EdgeInsets.all(12)),
                                     backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 66, 101, 224))
                                 ),
-                                onPressed: (){
-                                  if (_formkey.currentState!.validate()){
-
-                                    Login();
-
-                                  }
-
-                                },
+                                onPressed: Login,
                                 child: Text(
                                     "Connexion",
                                     style: TextStyle(
@@ -223,8 +216,6 @@ class _LoginPageState extends State<LoginPage> {
           }
       );
     }
-
-
 
   }
 }

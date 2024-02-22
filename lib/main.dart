@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
         body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, AsyncSnapshot<User?> snapshot) {
-            if (snapshot.hasData && snapshot.data != null) {
+            if (snapshot.hasData) {
               return Column(
                 children: [
                   Expanded(
@@ -73,12 +73,15 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ],
               );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
             }
-            return LoginPage();
+            // else if (snapshot.connectionState == ConnectionState.waiting) {
+            //   return Center(
+            //     child: CircularProgressIndicator(),
+            //   );
+            // }
+            else {
+              return LoginPage();
+            }
           },
         ),
       ),

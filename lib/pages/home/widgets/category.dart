@@ -65,14 +65,14 @@ class CategorySection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-            "10 %",
-            style: TextStyle(
-                color: Color(0xff9692fc),
-                fontWeight: FontWeight.bold,
-                fontSize: 11
-            ),
-        ),
+        // Text(
+        //     "10 %",
+        //     style: TextStyle(
+        //         color: Color(0xff9692fc),
+        //         fontWeight: FontWeight.bold,
+        //         fontSize: 11
+        //     ),
+        // ),
         Text(
             "${formatNumber(total)} Ar",
             style: const TextStyle(
@@ -116,12 +116,12 @@ class CategorySection extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            height: 140,
+            height: 128,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => Container(
                 padding: EdgeInsets.all(10),
-                width: 105,
+                width: 95,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Color(0xFFF6F8FF),
@@ -141,7 +141,7 @@ class CategorySection extends StatelessWidget {
                         size: 13,
                       ),
                     ),
-                    SizedBox(height: 7,),
+                    SizedBox(height: 12,),
                     FutureBuilder<Widget>(
                       future: getTotalExpenses(categories[index]['gategoriId']),
                       builder: (context, snapshot) {

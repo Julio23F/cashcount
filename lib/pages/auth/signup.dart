@@ -1,4 +1,5 @@
 import 'package:cashcount/pages/auth/login.dart';
+import 'package:cashcount/pages/home/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,34 @@ class _LoginPageState extends State<SignupPage> {
     confPseudoController.dispose();
   }
 
+  Future<void> Login() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+              child: CircularProgressIndicator()
+          );
+        }
+    );
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: confEmailController.text,
+          password: confMDPController.text
+      );
+      Navigator.of(context).pop();
+    } on FirebaseException catch (e) {
+      Navigator.of(context).pop();
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.code.toString()),
+            );
+          }
+      );
+    }
+
+  }
   Future signUp() async {
     if (_formkey.currentState!.validate()) {
       showDialog(
@@ -40,13 +69,20 @@ class _LoginPageState extends State<SignupPage> {
       try {
 
         // Créer l'utilisateur
-        UserCredential? userCredential =  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential? userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: confEmailController.text,
           password: confMDPController.text,
         );
 
-        // Enregistrer dans firestor
-        reisterFirestore(userCredential);
+        // Enregistrer dans firestore
+        await registerFirestore(userCredential);
+
+        // // Connexion
+        // await FirebaseAuth.instance.signInWithEmailAndPassword(
+        //     email: confEmailController.text,
+        //     password: confMDPController.text
+        // );
+
 
         Navigator.of(context).pop();
       } on FirebaseException catch (e) {
@@ -65,20 +101,19 @@ class _LoginPageState extends State<SignupPage> {
   }
 
   // Enregistrer dans cloud firestore
-  Future reisterFirestore(UserCredential? userCredential) async{
+  Future registerFirestore(UserCredential? userCredential) async{
     if(userCredential != null &&  userCredential.user != null){
       await FirebaseFirestore.instance
           .collection("users")
           .doc(userCredential.user!.uid)
           .set({
-        "email": userCredential.user!.email,
-        "pseudo": confPseudoController.text.trim(),
-      });
+            "email": userCredential.user!.email,
+            "pseudo": confPseudoController.text.trim(),
+          });
     }
 
 
   }
-
 
   @override
   Widget build(BuildContext context) {

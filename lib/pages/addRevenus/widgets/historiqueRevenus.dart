@@ -102,6 +102,34 @@ class HistoriqueRevenus extends StatelessWidget {
 
                     return Container(
                       margin: EdgeInsets.only(bottom: 15),
+                      // child: CupertinoLeftScroll(
+                      //   buttonWidth: 60,
+                      //   child: Container(
+                      //     height: 60,
+                      //     color: Colors.white,
+                      //     alignment: Alignment.center,
+                      //     child: Text('👈 Try Scroll Left(iOS style)'),
+                      //   ),
+                      //   buttons: <Widget>[
+                      //     LeftScrollItem(
+                      //       text: 'Delete',
+                      //       color: Colors.red,
+                      //       onTap: () {
+                      //         print('delete');
+                      //       },
+                      //     ),
+                      //     LeftScrollItem(
+                      //       text: 'Edit',
+                      //       color: Colors.orange,
+                      //       onTap: () {
+                      //         print('edit');
+                      //       },
+                      //     ),
+                      //   ],
+                      //   onTap: () {
+                      //     print('tap row');
+                      //   },
+                      // ),
                       child: CupertinoLeftScroll(
                         key: Key(revenusId),
                         closeTag: LeftScrollCloseTag(revenusId),
@@ -171,7 +199,7 @@ class HistoriqueRevenus extends StatelessWidget {
                           ),
                         ],
                         onTap: () {
-                          print('tap row');
+                          print('tap dza');
                         },
                       ),
                     );
