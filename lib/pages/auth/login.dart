@@ -1,7 +1,10 @@
+import 'package:cashcount/main.dart';
 import 'package:cashcount/pages/auth/signup.dart';
 import 'package:cashcount/pages/auth/widgets/remember.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../home/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,7 +14,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final _formkey = GlobalKey<FormState>();
 
   final confEmailController = TextEditingController();
@@ -33,7 +35,8 @@ class _LoginPageState extends State<LoginPage> {
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/auth.png'), // Remplacez par le chemin de votre image
+              image: AssetImage(
+                  'assets/images/auth.png'), // Remplacez par le chemin de votre image
               fit: BoxFit.cover,
             ),
           ),
@@ -79,26 +82,27 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   border: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                      color: Colors.grey, // Nouvelle couleur du bord
+                                      color: Colors
+                                          .grey, // Nouvelle couleur du bord
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                      color: Colors.grey, // Nouvelle couleur du bord
+                                      color: Colors
+                                          .grey, // Nouvelle couleur du bord
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                validator: (value){
-                                  if (value == null || value.isEmpty){
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
                                     return "Adresse email invalide";
                                   }
                                   return null;
                                 },
                                 controller: confEmailController,
-                              )
-                          ),
+                              )),
                           Container(
                               margin: EdgeInsets.only(bottom: 15),
                               child: TextFormField(
@@ -111,73 +115,66 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   border: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                      color: Colors.grey, // Nouvelle couleur du bord
+                                      color: Colors
+                                          .grey, // Nouvelle couleur du bord
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                      color: Colors.grey, // Nouvelle couleur du bord
+                                      color: Colors
+                                          .grey, // Nouvelle couleur du bord
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                validator: (value){
-                                  if(value == null || value.isEmpty ){
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
                                     return "Mot de passe invalide";
                                   }
                                   return null;
                                 },
                                 controller: confMDPController,
-                              )
-                          ),
+                              )),
                           RememberSection(),
                           Container(
                             margin: EdgeInsets.only(top: 35),
                             width: double.infinity,
                             child: ElevatedButton(
                                 style: ButtonStyle(
-                                    padding: MaterialStatePropertyAll(EdgeInsets.all(12)),
-                                    backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 66, 101, 224))
-                                ),
+                                    padding: MaterialStatePropertyAll(
+                                        EdgeInsets.all(12)),
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Color.fromARGB(255, 66, 101, 224))),
                                 onPressed: Login,
-                                child: Text(
-                                    "Connexion",
+                                child: Text("Connexion",
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18
-                                    )
-                                )
-                            ),
+                                        color: Colors.white, fontSize: 18))),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 35),
-                            width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Vous n'avez pas de compte ?"),
-                                TextButton(
-                                  onPressed: (){
-                                    Navigator.push(
-                                        context,
-                                        PageRouteBuilder(
-                                            pageBuilder: (_, __, ___) => SignupPage()
-                                        )
-                                    );
-                                  },
-                                  child: Text(
+                              margin: EdgeInsets.only(top: 35),
+                              width: double.infinity,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Vous n'avez pas de compte ?"),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                              pageBuilder: (_, __, ___) =>
+                                                  SignupPage()));
+                                    },
+                                    child: Text(
                                       "Inscription",
                                       style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.blueAccent
-                                      ),
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.blueAccent),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            )
-                          )
-
+                                ],
+                              ))
                         ],
                       ),
                     ),
@@ -190,21 +187,22 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
   Future<void> Login() async {
     showDialog(
         context: context,
         builder: (context) {
-          return Center(
-              child: CircularProgressIndicator()
-          );
-        }
-    );
+          return Center(child: CircularProgressIndicator());
+        });
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: confEmailController.text,
-          password: confMDPController.text
-      );
+          email: confEmailController.text, password: confMDPController.text);
+
       Navigator.of(context).pop();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MyApp()),
+      );
     } on FirebaseException catch (e) {
       Navigator.of(context).pop();
       showDialog(
@@ -213,11 +211,7 @@ class _LoginPageState extends State<LoginPage> {
             return AlertDialog(
               content: Text(e.code.toString()),
             );
-          }
-      );
+          });
     }
-
   }
 }
-
-

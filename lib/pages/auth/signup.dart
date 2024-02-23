@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
+
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
@@ -77,14 +79,14 @@ class _LoginPageState extends State<SignupPage> {
         // Enregistrer dans firestore
         await registerFirestore(userCredential);
 
-        // // Connexion
-        // await FirebaseAuth.instance.signInWithEmailAndPassword(
-        //     email: confEmailController.text,
-        //     password: confMDPController.text
-        // );
-
-
         Navigator.of(context).pop();
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MyApp()),
+        );
+
+
       } on FirebaseException catch (e) {
         Navigator.of(context).pop();
         // Gérer les erreurs (par exemple, e-mail en double, mot de passe faible, etc.)
